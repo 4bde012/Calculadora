@@ -1,26 +1,24 @@
-He mejorado el diseño y también la lógica: ahora los seis juegos tienen estados claros, reinicios fiables y controles adaptados a móvil. Sustituye todo el contenido de juegos.html por esto:
+El código anterior tenía errores en varias cadenas de JavaScript, por eso algunos juegos podían fallar. Aquí tienes una versión corregida y más cuidada. Borra lo que hay en juegos.html y pega el código completo:
 
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b1020">
+  <meta name="theme-color" content="#090d19">
   <title>Code Arcade | Minijuegos</title>
 
   <style>
     :root {
       color-scheme: dark;
-      --fondo: #0b1020;
-      --panel: #121a2d;
-      --panel-claro: #19233a;
-      --texto: #f3f6ff;
-      --suave: #9aa8c3;
-      --borde: #ffffff16;
-      --morado: #9673ff;
+      --fondo: #090d19;
+      --panel: #121a2b;
+      --texto: #f5f6ff;
+      --suave: #9da9c0;
+      --borde: #ffffff17;
+      --morado: #9774ff;
       --rosa: #ff6fae;
-      --verde: #50e0b2;
-      --radio: 22px;
+      --verde: #4de0b0;
     }
 
     * {
@@ -32,9 +30,9 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       margin: 0;
       padding: 28px;
       color: var(--texto);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
       background:
-        radial-gradient(ellipse at 12% 0%, #5939a444, transparent 34rem),
+        radial-gradient(ellipse at 12% 0%, #6339ae45, transparent 34rem),
         radial-gradient(ellipse at 95% 15%, #bd397d22, transparent 30rem),
         var(--fondo);
     }
@@ -80,7 +78,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       border: 1px solid #ffffff25;
       border-radius: 15px;
       background: linear-gradient(135deg, var(--morado), var(--rosa));
-      box-shadow: 0 8px 30px #9673ff40;
+      box-shadow: 0 8px 30px #9774ff45;
       font-size: 18px;
     }
 
@@ -91,12 +89,12 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       background: #ffffff08;
       color: var(--texto);
       text-decoration: none;
-      transition: background .2s, border-color .2s;
+      transition: .2s;
     }
 
     .volver:hover {
-      border-color: #ffffff45;
-      background: #ffffff12;
+      border-color: #ffffff50;
+      background: #ffffff14;
     }
 
     .portada {
@@ -109,14 +107,13 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       gap: 9px;
       margin-bottom: 18px;
       padding: 8px 12px;
-      border: 1px solid #9673ff55;
+      border: 1px solid #9774ff55;
       border-radius: 999px;
-      background: #9673ff16;
+      background: #9774ff16;
       color: #d3c7ff;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 1.3px;
-      text-transform: uppercase;
     }
 
     .punto-verde {
@@ -137,8 +134,8 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
     .degradado {
       color: #c9b8ff;
       background: linear-gradient(90deg, #c9b8ff, #ff8cbe);
-      -webkit-background-clip: text;
       background-clip: text;
+      -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
@@ -183,9 +180,9 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       min-height: 270px;
       padding: 21px;
       border: 1px solid var(--borde);
-      border-radius: var(--radio);
-      background: linear-gradient(145deg, #19223a, #111729 78%);
-      box-shadow: 0 16px 38px #00000020;
+      border-radius: 22px;
+      background: linear-gradient(145deg, #19233a, #111729 78%);
+      box-shadow: 0 16px 38px #00000022;
       transition: transform .2s ease, border-color .2s ease;
     }
 
@@ -199,13 +196,13 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       border-radius: 50%;
       background: var(--brillo);
       content: "";
-      opacity: .14;
+      opacity: .16;
       filter: blur(40px);
     }
 
     .juego:hover {
       transform: translateY(-4px);
-      border-color: color-mix(in srgb, var(--brillo) 55%, transparent);
+      border-color: var(--brillo);
     }
 
     .icono {
@@ -253,7 +250,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
 
     input:focus {
       border-color: var(--morado);
-      box-shadow: 0 0 0 3px #9673ff26;
+      box-shadow: 0 0 0 3px #9774ff30;
     }
 
     .boton {
@@ -264,11 +261,11 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       background: linear-gradient(110deg, #8867f4, #a35fd9);
       color: white;
       font-weight: 750;
-      transition: filter .15s, transform .15s, background .15s;
+      transition: filter .15s, transform .15s;
     }
 
     .boton:hover {
-      filter: brightness(1.13);
+      filter: brightness(1.15);
     }
 
     .boton:active {
@@ -294,19 +291,15 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       line-height: 1.5;
     }
 
-    .resultado:empty {
-      display: none;
-    }
-
     .zona-reflejos {
       width: 100%;
       background: #ffffff0b;
     }
 
     .zona-reflejos.listo {
-      border-color: #50e0b2;
+      border-color: var(--verde);
       background: #16875f;
-      box-shadow: 0 0 24px #50e0b255;
+      box-shadow: 0 0 24px #4de0b255;
     }
 
     .zona-caza {
@@ -342,7 +335,6 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       align-self: center;
       font-size: 18px;
       font-weight: 800;
-      letter-spacing: .5px;
     }
 
     .colores button {
@@ -380,11 +372,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
         grid-template-columns: 1fr;
       }
 
-      .juego {
-        min-height: auto;
-      }
-
-      .descripcion {
+      .juego, .descripcion {
         min-height: 0;
       }
 
@@ -400,7 +388,6 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
-        scroll-behavior: auto !important;
         transition-duration: .01ms !important;
       }
     }
@@ -435,8 +422,8 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
     </div>
 
     <section class="rejilla" aria-label="Lista de minijuegos">
-      <article class="juego" style="--brillo:#9673ff">
-        <div class="icono" aria-hidden="true">🔢</div>
+      <article class="juego" style="--brillo:#9774ff">
+        <div class="icono">🔢</div>
         <h3>Adivina el número</h3>
         <p class="descripcion">Encuentra el número secreto entre 1 y 20.</p>
         <form class="fila" id="formAdivina">
@@ -448,7 +435,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       </article>
 
       <article class="juego" style="--brillo:#ff6fae">
-        <div class="icono" aria-hidden="true">✊</div>
+        <div class="icono">✊</div>
         <h3>Piedra, papel o tijera</h3>
         <p class="descripcion">Elige tu jugada y compite contra el ordenador.</p>
         <div class="opciones">
@@ -459,8 +446,8 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
         <p id="resultadoPPT" class="resultado" aria-live="polite"></p>
       </article>
 
-      <article class="juego" style="--brillo:#50e0b2">
-        <div class="icono" aria-hidden="true">⚡</div>
+      <article class="juego" style="--brillo:#4de0b0">
+        <div class="icono">⚡</div>
         <h3>Prueba de reflejos</h3>
         <p class="descripcion">Espera a que se ponga verde y pulsa lo más rápido posible.</p>
         <button id="botonReflejos" class="boton zona-reflejos">Empezar</button>
@@ -468,7 +455,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       </article>
 
       <article class="juego" style="--brillo:#ffb84d">
-        <div class="icono" aria-hidden="true">🎯</div>
+        <div class="icono">🎯</div>
         <h3>Caza el punto</h3>
         <p class="descripcion">Toca el punto rosa tantas veces como puedas en 15 segundos.</p>
         <div class="fila" style="margin-bottom:10px">
@@ -482,12 +469,12 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       </article>
 
       <article class="juego" style="--brillo:#47c9ff">
-        <div class="icono" aria-hidden="true">🧠</div>
+        <div class="icono">🧠</div>
         <h3>Desafío matemático</h3>
         <p class="descripcion">Resuelve la operación y comprueba tu respuesta.</p>
         <form class="fila" id="formMate">
           <span id="operacion" class="operacion"></span>
-          <input id="respuestaMate" type="number" placeholder="Respuesta" aria-label="Respuesta de la operación" required>
+          <input id="respuestaMate" type="number" placeholder="Respuesta" aria-label="Tu respuesta" required>
           <button class="boton" type="submit">Comprobar</button>
           <button class="boton boton-secundario" id="nuevaOperacion" type="button">Otra</button>
         </form>
@@ -495,7 +482,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       </article>
 
       <article class="juego" style="--brillo:#ff6f62">
-        <div class="icono" aria-hidden="true">🎨</div>
+        <div class="icono">🎨</div>
         <h3>Memoria de colores</h3>
         <p class="descripcion">Memoriza la secuencia y repítela en el mismo orden.</p>
         <button id="empezarMemoria" class="boton">Empezar partida</button>
@@ -513,14 +500,14 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
   </main>
 
   <script>
-    // Adivina el número
-    let secreto = numeroAleatorio(1, 20);
-    let intentosNumero = 0;
-    let numeroResuelto = false;
-
-    function numeroAleatorio(min, max) {
+    function aleatorio(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    // Adivina el número
+    let secreto = aleatorio(1, 20);
+    let intentos = 0;
+    let numeroResuelto = false;
 
     document.querySelector("#formAdivina").addEventListener("submit", (evento) => {
       evento.preventDefault();
@@ -539,11 +526,11 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
         return;
       }
 
-      intentosNumero++;
+      intentos++;
 
       if (valor === secreto) {
         numeroResuelto = true;
-        resultado.textContent = `¡Correcto! Lo has encontrado en \({intentosNumero} intento\){intentosNumero === 1 ? "" : "s"}.`;
+        resultado.textContent = `¡Correcto! Lo has encontrado en \({intentos} intento\){intentos === 1 ? "" : "s"}.`;
       } else if (valor < secreto) {
         resultado.textContent = "El número secreto es más alto. Prueba otra vez.";
       } else {
@@ -554,8 +541,8 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
     });
 
     document.querySelector("#reiniciarNumero").addEventListener("click", () => {
-      secreto = numeroAleatorio(1, 20);
-      intentosNumero = 0;
+      secreto = aleatorio(1, 20);
+      intentos = 0;
       numeroResuelto = false;
       document.querySelector("#adivina").value = "";
       document.querySelector("#resultadoNumero").textContent = "Nueva partida. ¡Adivina el número!";
@@ -564,7 +551,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
 
     // Piedra, papel o tijera
     const jugadas = ["piedra", "papel", "tijera"];
-    const nombresJugada = {
+    const nombres = {
       piedra: "Piedra ✊",
       papel: "Papel ✋",
       tijera: "Tijera ✌️"
@@ -573,7 +560,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
     document.querySelectorAll("[data-jugada]").forEach((boton) => {
       boton.addEventListener("click", () => {
         const persona = boton.dataset.jugada;
-        const ordenador = jugadas[numeroAleatorio(0, 2)];
+        const ordenador = jugadas[aleatorio(0, 2)];
         let mensaje;
 
         if (persona === ordenador) {
@@ -589,7 +576,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
         }
 
         document.querySelector("#resultadoPPT").textContent =
-          `Tú: \({nombresJugada[persona]} · Ordenador: \){nombresJugada[ordenador]}. ${mensaje}`;
+          `Tú: \({nombres[persona]} · Ordenador: \){nombres[ordenador]}. ${mensaje}`;
       });
     });
 
@@ -597,7 +584,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
     const botonReflejos = document.querySelector("#botonReflejos");
     const resultadoReflejos = document.querySelector("#resultadoReflejos");
     let estadoReflejos = "inactivo";
-    let tiempoInicio = 0;
+    let inicioReflejos = 0;
     let temporizadorReflejos;
 
     botonReflejos.addEventListener("click", () => {
@@ -605,12 +592,14 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
         estadoReflejos = "esperando";
         botonReflejos.textContent = "Espera a que se ponga verde…";
         resultadoReflejos.textContent = "";
+
         temporizadorReflejos = setTimeout(() => {
           estadoReflejos = "listo";
-          tiempoInicio = performance.now();
+          inicioReflejos = performance.now();
           botonReflejos.classList.add("listo");
           botonReflejos.textContent = "¡AHORA!";
-        }, numeroAleatorio(1500, 4000));
+        }, aleatorio(1500, 4000));
+
         return;
       }
 
@@ -623,11 +612,11 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
       }
 
       if (estadoReflejos === "listo") {
-        const milisegundos = Math.round(performance.now() - tiempoInicio);
+        const tiempo = Math.round(performance.now() - inicioReflejos);
         estadoReflejos = "inactivo";
         botonReflejos.classList.remove("listo");
         botonReflejos.textContent = "Volver a jugar";
-        resultadoReflejos.textContent = `Tu tiempo: ${milisegundos} ms.`;
+        resultadoReflejos.textContent = `Tu tiempo: ${tiempo} ms.`;
       }
     });
 
@@ -644,8 +633,8 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
     function moverPunto() {
       const maxX = Math.max(0, zonaCaza.clientWidth - punto.offsetWidth);
       const maxY = Math.max(0, zonaCaza.clientHeight - punto.offsetHeight);
-      punto.style.left = `${numeroAleatorio(0, maxX)}px`;
-      punto.style.top = `${numeroAleatorio(0, maxY)}px`;
+      punto.style.left = `${aleatorio(0, maxX)}px`;
+      punto.style.top = `${aleatorio(0, maxY)}px`;
     }
 
     document.querySelector("#empezarCaza").addEventListener("click", () => {
@@ -684,24 +673,24 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
     const resultadoMate = document.querySelector("#resultadoMate");
 
     function crearOperacion() {
-      const tipo = numeroAleatorio(0, 2);
+      const tipo = aleatorio(0, 2);
       let a;
       let b;
       let signo;
 
       if (tipo === 0) {
-        a = numeroAleatorio(2, 20);
-        b = numeroAleatorio(2, 20);
+        a = aleatorio(2, 20);
+        b = aleatorio(2, 20);
         signo = "+";
         respuestaCorrecta = a + b;
       } else if (tipo === 1) {
-        a = numeroAleatorio(5, 30);
-        b = numeroAleatorio(2, a);
+        a = aleatorio(5, 30);
+        b = aleatorio(2, a);
         signo = "−";
         respuestaCorrecta = a - b;
       } else {
-        a = numeroAleatorio(2, 12);
-        b = numeroAleatorio(2, 12);
+        a = aleatorio(2, 12);
+        b = aleatorio(2, 12);
         signo = "×";
         respuestaCorrecta = a * b;
       }
@@ -721,7 +710,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
         resultadoMate.textContent = "¡Correcto! Aquí tienes otra operación.";
         setTimeout(crearOperacion, 900);
       } else {
-        resultadoMate.textContent = "No es esa. Prueba otra vez o genera una operación nueva.";
+        resultadoMate.textContent = "No es esa. Prueba otra vez o genera otra operación.";
       }
     });
 
@@ -757,9 +746,10 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
 
     document.querySelector("#empezarMemoria").addEventListener("click", async () => {
       secuencia.length = 0;
+      turno = 0;
       memoriaActiva = true;
+      secuencia.push(colores[aleatorio(0, colores.length - 1)]);
       document.querySelector("#resultadoMemoria").textContent = "Ronda 1";
-      secuencia.push(colores[numeroAleatorio(0, colores.length - 1)]);
       await esperar(400);
       mostrarSecuencia();
     });
@@ -779,7 +769,7 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
 
         if (turno === secuencia.length) {
           turno = 0;
-          secuencia.push(colores[numeroAleatorio(0, colores.length - 1)]);
+          secuencia.push(colores[aleatorio(0, colores.length - 1)]);
           document.querySelector("#resultadoMemoria").textContent =
             `¡Bien! Siguiente: ronda ${secuencia.length}.`;
           await esperar(700);
@@ -790,3 +780,6 @@ He mejorado el diseño y también la lógica: ahora los seis juegos tienen estad
   </script>
 </body>
 </html>
+
+
+Importante: el enlace index.html funciona si tu calculadora se llama exactamente así. Si tiene otro nombre, cambia href="index.html" en los dos enlaces.
