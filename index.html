@@ -8,9 +8,8 @@
     body {
       font-family: Arial, sans-serif;
       max-width: 360px;
-      margin: 40px auto;
+      margin: 30px auto;
       padding: 16px;
-      text-align: center;
       background: #f2f4f8;
     }
 
@@ -21,17 +20,35 @@
       box-shadow: 0 3px 12px #0002;
     }
 
-    input, button {
+    #pantalla {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 10px;
+      font-size: 28px;
+      text-align: right;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+    }
+
+    .teclado {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    button, input {
       font-size: 18px;
-      padding: 12px;
-      margin: 5px;
+      padding: 14px;
       border-radius: 8px;
       border: 1px solid #bbb;
     }
 
-    input { width: 85%; }
     button { cursor: pointer; }
-    #resultado, #mensaje { min-height: 24px; }
+    .operador { background: #e6edff; }
+    .igual { background: #b9d1ff; }
+    .ancho { grid-column: span 2; }
+
     #juego { display: none; }
   </style>
 </head>
@@ -39,15 +56,37 @@
   <main class="panel">
     <h1>Calculadora</h1>
 
-    <input id="pantalla" type="text" placeholder="Ej.: 12 * 4" autocomplete="off">
-    <br>
-    <button onclick="calcular()">Calcular</button>
-    <p id="resultado"></p>
+    <input id="pantalla" value="0" readonly>
+
+    <div class="teclado">
+      <button onclick="limpiar()">C</button>
+      <button onclick="borrar()">⌫</button>
+      <button class="operador" onclick="elegirOperador('/')">÷</button>
+      <button class="operador" onclick="elegirOperador('*')">×</button>
+
+      <button onclick="agregar('7')">7</button>
+      <button onclick="agregar('8')">8</button>
+      <button onclick="agregar('9')">9</button>
+      <button class="operador" onclick="elegirOperador('-')">−</button>
+
+      <button onclick="agregar('4')">4</button>
+      <button onclick="agregar('5')">5</button>
+      <button onclick="agregar('6')">6</button>
+      <button class="operador" onclick="elegirOperador('+')">+</button>
+
+      <button onclick="agregar('1')">1</button>
+      <button onclick="agregar('2')">2</button>
+      <button onclick="agregar('3')">3</button>
+      <button class="igual" onclick="calcular()" style="grid-row: span 2">=</button>
+
+      <button class="ancho" onclick="agregar('0')">0</button>
+      <button onclick="agregar('.')">.</button>
+    </div>
 
     <hr>
 
-    <input id="codigo" type="password" placeholder="Código del modo juego">
-    <br>
+    <h2>Modo juego</h2>
+    <input id="codigo" type="password" placeholder="Introduce el código">
     <button onclick="comprobarCodigo()">Entrar</button>
     <p id="mensaje"></p>
 
@@ -55,7 +94,6 @@
       <h2>Adivina el número</h2>
       <p>Estoy pensando en un número del 1 al 10.</p>
       <input id="intento" type="number" min="1" max="10" placeholder="Tu número">
-      <br>
       <button onclick="probarNumero()">Probar</button>
       <p id="pista"></p>
       <button onclick="nuevoNumero()">Nuevo número</button>
@@ -63,35 +101,78 @@
   </main>
 
   <script>
-    function calcular() {
-      const texto = document.getElementById("pantalla").value.trim();
-      const resultado = document.getElementById("resultado");
+    const pantalla = document.getElementById("pantalla");
+    let numeroAnterior = null;
+    let operador = null;
+    let empezarNumeroNuevo = true;
 
-      // Acepta números y las operaciones +, -, * y /.
-      const valido = /^[0-9+\-*/().\s]+$/.test(texto);
-      if (!valido || texto === "") {
-        resultado.textContent = "Escribe una operación válida.";
+    function agregar(valor) {
+      if (empezarNumeroNuevo) {
+        pantalla.value = valor === "." ? "0." : valor;
+        empezarNumeroNuevo = false;
         return;
       }
 
-      try {
-        const valor = Function('"use strict"; return (' + texto + ')')();
-        resultado.textContent =
-          Number.isFinite(valor) ? "Resultado: " + valor : "No se puede dividir entre cero.";
-      } catch {
-        resultado.textContent = "No he podido interpretar la operación.";
+      if (valor === "." && pantalla.value.includes(".")) return;
+      pantalla.value = pantalla.value === "0" && valor !== "."
+        ? valor
+        : pantalla.value + valor;
+    }
+
+    function elegirOperador(nuevoOperador) {
+      numeroAnterior = Number(pantalla.value);
+      operador = nuevoOperador;
+      empezarNumeroNuevo = true;
+    }
+
+    function calcular() {
+      if (operador === null || numeroAnterior === null) return;
+
+      const numeroActual = Number(pantalla.value);
+      let resultado;
+
+      if (operador === "+") resultado = numeroAnterior + numeroActual;
+      if (operador === "-") resultado = numeroAnterior - numeroActual;
+      if (operador === "*") resultado = numeroAnterior * numeroActual;
+      if (operador === "/") {
+        if (numeroActual === 0) {
+          pantalla.value = "Error";
+          operador = null;
+          empezarNumeroNuevo = true;
+          return;
+        }
+        resultado = numeroAnterior / numeroActual;
+      }
+
+      pantalla.value = String(Number(resultado.toFixed(8)));
+      operador = null;
+      numeroAnterior = null;
+      empezarNumeroNuevo = true;
+    }
+
+    function limpiar() {
+      pantalla.value = "0";
+      numeroAnterior = null;
+      operador = null;
+      empezarNumeroNuevo = true;
+    }
+
+    function borrar() {
+      if (pantalla.value.length <= 1) {
+        pantalla.value = "0";
+      } else {
+        pantalla.value = pantalla.value.slice(0, -1);
       }
     }
 
     function comprobarCodigo() {
       const codigo = document.getElementById("codigo").value;
-      const mensaje = document.getElementById("mensaje");
 
       if (codigo === "JUEGO123") {
         document.getElementById("juego").style.display = "block";
-        mensaje.textContent = "Modo juego abierto.";
+        document.getElementById("mensaje").textContent = "Modo juego abierto.";
       } else {
-        mensaje.textContent = "Ese código no es correcto.";
+        document.getElementById("mensaje").textContent = "Ese código no es correcto.";
       }
     }
 
