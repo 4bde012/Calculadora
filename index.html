@@ -3,64 +3,241 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Calculadora</title>
+  <title>Calculadora Code</title>
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 360px;
-      margin: 30px auto;
-      padding: 16px;
-      background: #f2f4f8;
+    * {
+      box-sizing: border-box;
     }
 
-    .panel {
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 3px 12px #0002;
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      font-family: Arial, sans-serif;
+      color: #f4f4ff;
+      background:
+        radial-gradient(circle at top left, #4938a8 0, transparent 35%),
+        linear-gradient(135deg, #121426, #202340);
+    }
+
+    .app {
+      width: min(100%, 380px);
+      padding: 24px;
+      border: 1px solid #ffffff24;
+      border-radius: 24px;
+      background: #191b30;
+      box-shadow: 0 20px 60px #0006;
+    }
+
+    .encabezado {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .encabezado h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+    }
+
+    .encabezado p {
+      margin: 0;
+      color: #a9abc7;
+      font-size: 14px;
     }
 
     #pantalla {
-      box-sizing: border-box;
       width: 100%;
-      padding: 16px;
-      margin-bottom: 10px;
-      font-size: 28px;
+      height: 76px;
+      margin-bottom: 14px;
+      padding: 12px 16px;
+      border: 1px solid #ffffff18;
+      border-radius: 16px;
+      outline: none;
+      background: #101222;
+      color: white;
       text-align: right;
-      border: 1px solid #bbb;
-      border-radius: 8px;
+      font-size: 32px;
     }
 
     .teclado {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      min-height: 58px;
+      border: 0;
+      border-radius: 14px;
+      background: #292c47;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.12s, filter 0.12s, background 0.12s;
+    }
+
+    button:hover {
+      filter: brightness(1.16);
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    .operador {
+      background: #39356d;
+      color: #d7ceff;
+    }
+
+    .accion {
+      background: #393d5d;
+      color: #c9caff;
+    }
+
+    .igual {
+      background: #7658f2;
+      color: white;
+    }
+
+    .cero {
+      grid-column: span 2;
+    }
+
+    .separador {
+      height: 1px;
+      margin: 22px 0;
+      border: 0;
+      background: #ffffff20;
+    }
+
+    .boton-code {
+      width: 100%;
+      min-height: 52px;
+      background: linear-gradient(100deg, #7658f2, #a14de0);
+      font-size: 16px;
+    }
+
+    #zonaCode {
+      display: none;
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid #ffffff18;
+      border-radius: 18px;
+      background: #111326;
+    }
+
+    #zonaCode h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+
+    .ayuda {
+      margin: 0 0 14px;
+      color: #a9abc7;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .fila-code {
+      display: flex;
       gap: 8px;
     }
 
-    button, input {
-      font-size: 18px;
-      padding: 14px;
-      border-radius: 8px;
-      border: 1px solid #bbb;
+    #codigo {
+      min-width: 0;
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ffffff25;
+      border-radius: 10px;
+      outline: none;
+      background: #20233c;
+      color: white;
+      font-size: 15px;
     }
 
-    button { cursor: pointer; }
-    .operador { background: #e6edff; }
-    .igual { background: #b9d1ff; }
-    .ancho { grid-column: span 2; }
+    .boton-entrar {
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 10px;
+      background: #7658f2;
+      font-size: 14px;
+    }
 
-    #juego { display: none; }
+    #mensaje, #pista {
+      min-height: 20px;
+      margin: 12px 0 0;
+      color: #c9caff;
+      font-size: 14px;
+    }
+
+    #juego {
+      display: none;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid #ffffff20;
+    }
+
+    #juego h3 {
+      margin: 0 0 8px;
+    }
+
+    #juego p {
+      color: #a9abc7;
+      font-size: 14px;
+    }
+
+    .fila-juego {
+      display: flex;
+      gap: 8px;
+    }
+
+    #intento {
+      width: 100px;
+      padding: 10px;
+      border: 1px solid #ffffff25;
+      border-radius: 10px;
+      outline: none;
+      background: #20233c;
+      color: white;
+      font-size: 16px;
+    }
+
+    .boton-juego {
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 10px;
+      background: #39356d;
+      font-size: 14px;
+    }
+
+    @media (max-width: 420px) {
+      body {
+        padding: 14px;
+      }
+
+      .app {
+        padding: 18px;
+      }
+    }
   </style>
 </head>
-<body>
-  <main class="panel">
-    <h1>Calculadora</h1>
 
-    <input id="pantalla" value="0" readonly>
+<body>
+  <main class="app">
+    <header class="encabezado">
+      <h1>Calculadora</h1>
+      <p>Haz tus cuentas y descubre el Modo Code</p>
+    </header>
+
+    <input id="pantalla" value="0" aria-label="Pantalla de la calculadora" readonly>
 
     <div class="teclado">
-      <button onclick="limpiar()">C</button>
-      <button onclick="borrar()">⌫</button>
+      <button class="accion" onclick="limpiar()">C</button>
+      <button class="accion" onclick="borrar()">⌫</button>
       <button class="operador" onclick="elegirOperador('/')">÷</button>
       <button class="operador" onclick="elegirOperador('*')">×</button>
 
@@ -79,29 +256,45 @@
       <button onclick="agregar('3')">3</button>
       <button class="igual" onclick="calcular()" style="grid-row: span 2">=</button>
 
-      <button class="ancho" onclick="agregar('0')">0</button>
+      <button class="cero" onclick="agregar('0')">0</button>
       <button onclick="agregar('.')">.</button>
     </div>
 
-    <hr>
+    <hr class="separador">
 
-    <h2>Modo juego</h2>
-    <input id="codigo" type="password" placeholder="Introduce el código">
-    <button onclick="comprobarCodigo()">Entrar</button>
-    <p id="mensaje"></p>
+    <button class="boton-code" onclick="mostrarModoCode()">
+      &lt;/&gt; Modo Code
+    </button>
 
-    <section id="juego">
-      <h2>Adivina el número</h2>
-      <p>Estoy pensando en un número del 1 al 10.</p>
-      <input id="intento" type="number" min="1" max="10" placeholder="Tu número">
-      <button onclick="probarNumero()">Probar</button>
-      <p id="pista"></p>
-      <button onclick="nuevoNumero()">Nuevo número</button>
+    <section id="zonaCode">
+      <h2>Modo Code</h2>
+      <p class="ayuda">Introduce el código para abrir el juego.</p>
+
+      <div class="fila-code">
+        <input id="codigo" type="password" placeholder="Código secreto">
+        <button class="boton-entrar" onclick="comprobarCodigo()">Entrar</button>
+      </div>
+
+      <p id="mensaje" aria-live="polite"></p>
+
+      <div id="juego">
+        <h3>Adivina el número</h3>
+        <p>Estoy pensando en un número del 1 al 10.</p>
+
+        <div class="fila-juego">
+          <input id="intento" type="number" min="1" max="10" placeholder="1-10">
+          <button class="boton-juego" onclick="probarNumero()">Probar</button>
+          <button class="boton-juego" onclick="nuevoNumero()">Nuevo</button>
+        </div>
+
+        <p id="pista" aria-live="polite"></p>
+      </div>
     </section>
   </main>
 
   <script>
     const pantalla = document.getElementById("pantalla");
+
     let numeroAnterior = null;
     let operador = null;
     let empezarNumeroNuevo = true;
@@ -114,9 +307,12 @@
       }
 
       if (valor === "." && pantalla.value.includes(".")) return;
-      pantalla.value = pantalla.value === "0" && valor !== "."
-        ? valor
-        : pantalla.value + valor;
+
+      if (pantalla.value === "0" && valor !== ".") {
+        pantalla.value = valor;
+      } else {
+        pantalla.value += valor;
+      }
     }
 
     function elegirOperador(nuevoOperador) {
@@ -131,17 +327,26 @@
       const numeroActual = Number(pantalla.value);
       let resultado;
 
-      if (operador === "+") resultado = numeroAnterior + numeroActual;
-      if (operador === "-") resultado = numeroAnterior - numeroActual;
-      if (operador === "*") resultado = numeroAnterior * numeroActual;
-      if (operador === "/") {
-        if (numeroActual === 0) {
-          pantalla.value = "Error";
-          operador = null;
-          empezarNumeroNuevo = true;
-          return;
-        }
-        resultado = numeroAnterior / numeroActual;
+      switch (operador) {
+        case "+":
+          resultado = numeroAnterior + numeroActual;
+          break;
+        case "-":
+          resultado = numeroAnterior - numeroActual;
+          break;
+        case "*":
+          resultado = numeroAnterior * numeroActual;
+          break;
+        case "/":
+          if (numeroActual === 0) {
+            pantalla.value = "Error";
+            operador = null;
+            numeroAnterior = null;
+            empezarNumeroNuevo = true;
+            return;
+          }
+          resultado = numeroAnterior / numeroActual;
+          break;
       }
 
       pantalla.value = String(Number(resultado.toFixed(8)));
@@ -158,31 +363,44 @@
     }
 
     function borrar() {
-      if (pantalla.value.length <= 1) {
-        pantalla.value = "0";
-      } else {
-        pantalla.value = pantalla.value.slice(0, -1);
-      }
+      if (empezarNumeroNuevo) return;
+
+      pantalla.value = pantalla.value.length > 1
+        ? pantalla.value.slice(0, -1)
+        : "0";
+    }
+
+    function mostrarModoCode() {
+      const zona = document.getElementById("zonaCode");
+      const estaOculto = getComputedStyle(zona).display === "none";
+      zona.style.display = estaOculto ? "block" : "none";
     }
 
     function comprobarCodigo() {
       const codigo = document.getElementById("codigo").value;
+      const mensaje = document.getElementById("mensaje");
 
       if (codigo === "JUEGO123") {
         document.getElementById("juego").style.display = "block";
-        document.getElementById("mensaje").textContent = "Modo juego abierto.";
+        mensaje.textContent = "Código correcto. ¡Ya puedes jugar!";
       } else {
-        document.getElementById("mensaje").textContent = "Ese código no es correcto.";
+        mensaje.textContent = "Código incorrecto. Prueba otra vez.";
       }
     }
 
-    let numeroSecreto = Math.floor(Math.random() * 10) + 1;
+    let numeroSecreto = crearNumero();
+
+    function crearNumero() {
+      return Math.floor(Math.random() * 10) + 1;
+    }
 
     function probarNumero() {
       const intento = Number(document.getElementById("intento").value);
       const pista = document.getElementById("pista");
 
-      if (intento === numeroSecreto) {
+      if (intento < 1 || intento > 10 || !Number.isInteger(intento)) {
+        pista.textContent = "Escribe un número entero del 1 al 10.";
+      } else if (intento === numeroSecreto) {
         pista.textContent = "¡Lo has acertado!";
       } else if (intento < numeroSecreto) {
         pista.textContent = "Prueba con un número más alto.";
@@ -192,9 +410,9 @@
     }
 
     function nuevoNumero() {
-      numeroSecreto = Math.floor(Math.random() * 10) + 1;
-      document.getElementById("pista").textContent = "Nuevo número. ¡Prueba otra vez!";
+      numeroSecreto = crearNumero();
       document.getElementById("intento").value = "";
+      document.getElementById("pista").textContent = "He elegido otro número. ¡Prueba!";
     }
   </script>
 </body>
