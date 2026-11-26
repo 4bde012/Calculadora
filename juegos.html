@@ -1,178 +1,464 @@
+Sí, la zona que te pasé quedó bastante básica. Te dejo una versión más cuidada: fondo oscuro con colores neón, tarjetas con estilo y seis juegos. Sustituye todo el contenido de juegos.html por este código:
+
 <!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zona de juegos</title>
+<title>Modo Code | Arcade</title>
  
 <style>
-* { box-sizing: border-box; }
+* {
+box-sizing: border-box;
+}
+ 
+:root {
+--fondo: #0c0b18;
+--tarjeta: #171629;
+--texto: #f7f4ff;
+--suave: #aaa7c5;
+--morado: #8865ff;
+--rosa: #ff5ca8;
+--verde: #4ce0b3;
+--borde: #ffffff17;
+}
  
 body {
 min-height: 100vh;
 margin: 0;
-padding: 24px;
-font-family: Arial, sans-serif;
-color: #f5f4ff;
-background: radial-gradient(circle at top left, #4938a8, transparent 38%),
-linear-gradient(135deg, #121426, #202340);
+padding: 28px;
+color: var(--texto);
+font-family: Inter, Arial, sans-serif;
+background:
+radial-gradient(ellipse at 15% 0%, #492c83 0, transparent 34%),
+radial-gradient(ellipse at 90% 15%, #55254e 0, transparent 28%),
+var(--fondo);
 }
  
-.contenedor { width: min(100%, 900px); margin: auto; }
+button, input {
+font: inherit;
+}
  
-header {
+.pagina {
+width: min(1120px, 100%);
+margin: 0 auto;
+}
+ 
+.barra {
 display: flex;
-justify-content: space-between;
 align-items: center;
+justify-content: space-between;
 gap: 16px;
-margin-bottom: 22px;
+margin-bottom: 48px;
 }
  
-h1 { margin: 0 0 6px; }
-header p { margin: 0; color: #a9abc7; }
- 
-a {
+.marca {
+display: flex;
+align-items: center;
+gap: 12px;
 color: white;
 text-decoration: none;
-font-weight: bold;
+font-size: 15px;
+font-weight: 800;
+letter-spacing: 1px;
+}
+ 
+.logo {
+display: grid;
+width: 42px;
+height: 42px;
+place-items: center;
+border-radius: 14px;
+background: linear-gradient(135deg, var(--morado), var(--rosa));
+box-shadow: 0 0 24px #8865ff55;
+font-size: 20px;
 }
  
 .volver {
-padding: 12px 16px;
+padding: 11px 16px;
+border: 1px solid var(--borde);
 border-radius: 12px;
-background: #39356d;
-white-space: nowrap;
+background: #ffffff0b;
+color: var(--texto);
+text-decoration: none;
+transition: 0.2s;
 }
  
-.juegos {
+.volver:hover {
+border-color: #ffffff50;
+background: #ffffff16;
+}
+ 
+.portada {
+margin-bottom: 34px;
+}
+ 
+.etiqueta {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+margin-bottom: 14px;
+padding: 8px 12px;
+border: 1px solid #a68aff45;
+border-radius: 999px;
+background: #8865ff15;
+color: #c8baff;
+font-size: 12px;
+font-weight: bold;
+letter-spacing: 1.2px;
+text-transform: uppercase;
+}
+ 
+.punto-verde {
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: var(--verde);
+box-shadow: 0 0 12px var(--verde);
+}
+ 
+h1 {
+margin: 0;
+font-size: clamp(38px, 7vw, 68px);
+letter-spacing: -3px;
+line-height: 1;
+}
+ 
+.degradado {
+color: #c7b5ff;
+background: linear-gradient(90deg, #c9b9ff, #ff81bb);
+-webkit-background-clip: text;
+background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+ 
+.subtitulo {
+max-width: 600px;
+margin: 16px 0 0;
+color: var(--suave);
+font-size: 16px;
+line-height: 1.6;
+}
+ 
+.encabezado-juegos {
+display: flex;
+align-items: end;
+justify-content: space-between;
+gap: 16px;
+margin: 36px 0 16px;
+}
+ 
+.encabezado-juegos h2 {
+margin: 0;
+font-size: 20px;
+}
+ 
+.encabezado-juegos p {
+margin: 0;
+color: var(--suave);
+font-size: 13px;
+}
+ 
+.rejilla {
 display: grid;
-grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+grid-template-columns: repeat(3, minmax(0, 1fr));
 gap: 16px;
 }
  
-.tarjeta {
+.juego {
+position: relative;
+overflow: hidden;
+min-height: 260px;
 padding: 20px;
-border: 1px solid #ffffff20;
-border-radius: 18px;
-background: #191b30;
-box-shadow: 0 12px 30px #0003;
+border: 1px solid var(--borde);
+border-radius: 21px;
+background: linear-gradient(145deg, #201e38, #151426 78%);
+box-shadow: 0 14px 35px #0003;
+transition: transform 0.2s, border-color 0.2s;
 }
  
-.tarjeta h2 { margin: 0 0 8px; }
-.tarjeta p { color: #b6b7d0; line-height: 1.45; }
- 
-button, input { font: inherit; }
- 
-button {
-padding: 11px 14px;
-border: 0;
-border-radius: 10px;
-background: #7658f2;
-color: white;
-font-weight: bold;
-cursor: pointer;
+.juego:hover {
+transform: translateY(-4px);
+border-color: #b7a0ff65;
 }
  
-button:hover { filter: brightness(1.15); }
+.juego::after {
+position: absolute;
+top: -50px;
+right: -40px;
+width: 130px;
+height: 130px;
+border-radius: 50%;
+background: var(--brillo, #8865ff);
+opacity: 0.12;
+filter: blur(35px);
+content: "";
+pointer-events: none;
+}
+ 
+.icono {
+display: grid;
+width: 48px;
+height: 48px;
+margin-bottom: 14px;
+place-items: center;
+border: 1px solid #ffffff19;
+border-radius: 15px;
+background: #ffffff0c;
+font-size: 24px;
+}
+ 
+.juego h3 {
+margin: 0 0 7px;
+font-size: 18px;
+}
+ 
+.descripcion {
+min-height: 40px;
+margin: 0 0 16px;
+color: var(--suave);
+font-size: 13px;
+line-height: 1.5;
+}
+ 
+.fila {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+}
  
 input {
-width: 95px;
-padding: 10px;
-border: 1px solid #ffffff30;
-border-radius: 9px;
-background: #101222;
+width: 100px;
+padding: 10px 11px;
+border: 1px solid #ffffff24;
+border-radius: 10px;
+outline: none;
+background: #0e0d1a;
 color: white;
+}
+ 
+input:focus {
+border-color: var(--morado);
+box-shadow: 0 0 0 3px #8865ff25;
+}
+ 
+button {
+padding: 10px 13px;
+border: 0;
+border-radius: 10px;
+background: linear-gradient(110deg, #8865ff, #a15bdf);
+color: white;
+font-weight: 700;
+cursor: pointer;
+transition: filter 0.15s, transform 0.15s;
+}
+ 
+button:hover {
+filter: brightness(1.15);
+}
+ 
+button:active {
+transform: scale(0.97);
+}
+ 
+.secundario {
+border: 1px solid #ffffff20;
+background: #ffffff0b;
 }
  
 .resultado {
-min-height: 24px;
-color: #d7ceff !important;
-font-weight: bold;
+min-height: 20px;
+margin: 12px 0 0;
+color: #d3c7ff;
+font-size: 13px;
+font-weight: 600;
 }
  
-.opciones { display: flex; flex-wrap: wrap; gap: 8px; }
-.opciones button { background: #39356d; }
+.opciones {
+display: flex;
+flex-wrap: wrap;
+gap: 7px;
+}
  
-#objetivo {
+.opciones button {
+padding: 9px 11px;
+background: #ffffff0d;
+border: 1px solid #ffffff1a;
+}
+ 
+.zona-reflejos {
 width: 100%;
-height: 130px;
-margin-top: 10px;
+background: #ffffff0d;
+}
+ 
+.zona-reflejos.listo {
+background: #20b879;
+box-shadow: 0 0 20px #20b87955;
+}
+ 
+.zona-caza {
 position: relative;
+width: 100%;
+height: 92px;
 overflow: hidden;
-border: 1px solid #ffffff25;
-border-radius: 14px;
-background: #101222;
+border: 1px solid #ffffff1b;
+border-radius: 12px;
+background: #0e0d1a;
 }
  
 #punto {
-display: none;
 position: absolute;
-width: 38px;
-height: 38px;
+display: none;
+width: 34px;
+height: 34px;
 padding: 0;
 border-radius: 50%;
-background: #ff5688;
+background: var(--rosa);
+box-shadow: 0 0 18px #ff5ca899;
 }
  
-@media (max-width: 520px) {
-body { padding: 16px; }
-header { align-items: flex-start; flex-direction: column; }
+.marcador {
+margin-left: auto;
+color: var(--suave);
+font-size: 13px;
+align-self: center;
+}
+ 
+.pie {
+margin-top: 24px;
+color: #77748f;
+text-align: center;
+font-size: 12px;
+}
+ 
+@media (max-width: 850px) {
+.rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+ 
+@media (max-width: 560px) {
+body { padding: 18px; }
+.barra { margin-bottom: 38px; }
+.rejilla { grid-template-columns: 1fr; }
+.juego { min-height: auto; }
+.descripcion { min-height: 0; }
+h1 { letter-spacing: -2px; }
 }
 </style>
 </head>
  
 <body>
-<main class="contenedor">
-<header>
-<div>
-<h1>🎮 Zona de juegos</h1>
-<p>Elige un juego y prueba a superar tu marca.</p>
-</div>
+<main class="pagina">
+<nav class="barra">
+<a class="marca" href="index.html">
+<span class="logo">&lt;/&gt;</span>
+<span>CODE ARCADE</span>
+</a>
 <a class="volver" href="index.html">← Calculadora</a>
-</header>
+</nav>
  
-<section class="juegos">
-<article class="tarjeta">
-<h2>🔢 Adivina el número</h2>
-<p>Adivina el número secreto del 1 al 20.</p>
-<input id="adivina" type="number" min="1" max="20" placeholder="1-20">
+<section class="portada">
+<div class="etiqueta">
+<span class="punto-verde"></span>
+ARCADE · 6 JUEGOS
+</div>
+<h1>Tu zona de <span class="degradado">juegos.</span></h1>
+<p class="subtitulo">
+Minijuegos rápidos para pensar, competir y poner a prueba tus reflejos.
+Elige uno y empieza a jugar.
+</p>
+</section>
+ 
+<div class="encabezado-juegos">
+<h2>Todos los juegos</h2>
+<p>Gratis · Sin descargar</p>
+</div>
+ 
+<section class="rejilla">
+<article class="juego" style="--brillo: #8062ff">
+<div class="icono">🔢</div>
+<h3>Adivina el número</h3>
+<p class="descripcion">Encuentra el número secreto entre 1 y 20.</p>
+<div class="fila">
+<input id="adivina" type="number" min="1" max="20" placeholder="1–20">
 <button onclick="probarNumero()">Probar</button>
-<p id="resultadoNumero" class="resultado"></p>
+<button class="secundario" onclick="nuevoSecreto()">Reiniciar</button>
+</div>
+<p id="resultadoNumero" class="resultado" aria-live="polite"></p>
 </article>
  
-<article class="tarjeta">
-<h2>✊ Piedra, papel o tijera</h2>
-<p>Elige una opción y juega contra el ordenador.</p>
+<article class="juego" style="--brillo: #ff5ca8">
+<div class="icono">✊</div>
+<h3>Piedra, papel o tijera</h3>
+<p class="descripcion">Elige tu jugada y compite contra el ordenador.</p>
 <div class="opciones">
 <button onclick="jugar('piedra')">✊ Piedra</button>
 <button onclick="jugar('papel')">✋ Papel</button>
 <button onclick="jugar('tijera')">✌️ Tijera</button>
 </div>
-<p id="resultadoPPT" class="resultado"></p>
+<p id="resultadoPPT" class="resultado" aria-live="polite"></p>
 </article>
  
-<article class="tarjeta">
-<h2>⚡ Prueba de reflejos</h2>
-<p>Pulsa el botón cuando se ponga verde. No pulses antes.</p>
-<button id="reflejos" onclick="pulsarReflejos()">Empezar</button>
-<p id="resultadoReflejos" class="resultado"></p>
+<article class="juego" style="--brillo: #33dfa9">
+<div class="icono">⚡</div>
+<h3>Prueba de reflejos</h3>
+<p class="descripcion">Espera a que el botón se ponga verde y púlsalo rápido.</p>
+<button id="botonReflejos" class="zona-reflejos" onclick="jugarReflejos()">
+Empezar
+</button>
+<p id="resultadoReflejos" class="resultado" aria-live="polite"></p>
 </article>
  
-<article class="tarjeta">
-<h2>🎯 Caza el punto</h2>
-<p>Pulsa el punto rosa tantas veces como puedas en 15 segundos.</p>
+<article class="juego" style="--brillo: #ffb84d">
+<div class="icono">🎯</div>
+<h3>Caza el punto</h3>
+<p class="descripcion">Toca el punto rosa tantas veces como puedas en 15 segundos.</p>
+<div class="fila" style="margin-bottom: 10px">
 <button onclick="empezarCaza()">Empezar</button>
-<span id="marcador"> Puntos: 0</span>
-<div id="objetivo">
-<button id="punto" aria-label="Punto objetivo" onclick="tocarPunto()"></button>
+<span id="marcador" class="marcador">Puntos: 0 · 15 s</span>
 </div>
-<p id="resultadoCaza" class="resultado"></p>
+<div id="zonaCaza" class="zona-caza">
+<button id="punto" aria-label="Tocar el punto" onclick="tocarPunto()"></button>
+</div>
+<p id="resultadoCaza" class="resultado" aria-live="polite"></p>
+</article>
+ 
+<article class="juego" style="--brillo: #47c9ff">
+<div class="icono">🧠</div>
+<h3>Desafío matemático</h3>
+<p class="descripcion">Resuelve la operación antes de que cambie.</p>
+<div class="fila">
+<span id="operacion" style="align-self:center;font-weight:bold"></span>
+<input id="respuestaMate" type="number" placeholder="Respuesta">
+<button onclick="comprobarMate()">Comprobar</button>
+</div>
+<p id="resultadoMate" class="resultado" aria-live="polite"></p>
+</article>
+ 
+<article class="juego" style="--brillo: #ff6f62">
+<div class="icono">🟣</div>
+<h3>Memoria de colores</h3>
+<p class="descripcion">Memoriza la secuencia y repítela en el mismo orden.</p>
+<button id="empezarMemoria" onclick="empezarMemoria()">Empezar</button>
+<div class="opciones" style="margin-top: 12px">
+<button onclick="elegirColor('rojo')" style="background:#d94b67">Rojo</button>
+<button onclick="elegirColor('azul')" style="background:#4779e8">Azul</button>
+<button onclick="elegirColor('verde')" style="background:#27a878">Verde</button>
+<button onclick="elegirColor('amarillo')" style="background:#c69625">Amarillo</button>
+</div>
+<p id="resultadoMemoria" class="resultado" aria-live="polite"></p>
 </article>
 </section>
+ 
+<p class="pie">CODE ARCADE · Hecho para jugar en el navegador</p>
 </main>
  
 <script>
-let secreto = Math.floor(Math.random() * 20) + 1;
+// Adivina el número
+let secreto = numeroAleatorio(1, 20);
+ 
+function numeroAleatorio(min, max) {
+return Math.floor(Math.random() * (max - min + 1)) + min;
+}
  
 function probarNumero() {
 const valor = Number(document.getElementById("adivina").value);
@@ -181,22 +467,28 @@ const texto = document.getElementById("resultadoNumero");
 if (!Number.isInteger(valor) || valor < 1 || valor > 20) {
 texto.textContent = "Escribe un número del 1 al 20.";
 } else if (valor === secreto) {
-texto.textContent = "¡Correcto! He elegido otro número.";
-secreto = Math.floor(Math.random() * 20) + 1;
+texto.textContent = "¡Correcto! Has encontrado el número.";
 } else if (valor < secreto) {
-texto.textContent = "Más alto. Prueba otra vez.";
+texto.textContent = "Prueba con un número más alto.";
 } else {
-texto.textContent = "Más bajo. Prueba otra vez.";
+texto.textContent = "Prueba con un número más bajo.";
 }
 }
  
+function nuevoSecreto() {
+secreto = numeroAleatorio(1, 20);
+document.getElementById("adivina").value = "";
+document.getElementById("resultadoNumero").textContent = "Nuevo número elegido.";
+}
+ 
+// Piedra, papel o tijera
 function jugar(eleccion) {
 const opciones = ["piedra", "papel", "tijera"];
-const ordenador = opciones[Math.floor(Math.random() * 3)];
+const ordenador = opciones[numeroAleatorio(0, 2)];
 let resultado;
  
 if (eleccion === ordenador) {
-resultado = "Empate";
+resultado = "Empate.";
 } else if (
 (eleccion === "piedra" && ordenador === "tijera") ||
 (eleccion === "papel" && ordenador === "piedra") ||
@@ -231,37 +523,40 @@ document.getElementById("resultadoPPT").textContent =
 eleccion.Ordenador:{ordenador}. ${resultado}`;
 }
  
-let esperando = false;
+// Reflejos
+let esperandoPulso = false;
+let partidaReflejos = false;
 let inicioVerde = 0;
-let temporizador = null;
+let temporizadorReflejos;
  
-function pulsarReflejos() {
-const boton = document.getElementById("reflejos");
+function jugarReflejos() {
+const boton = document.getElementById("botonReflejos");
 const texto = document.getElementById("resultadoReflejos");
  
-if (esperando) {
+if (esperandoPulso) {
 const tiempo = Date.now() - inicioVerde;
-esperando = false;
-boton.style.background = "#7658f2";
+esperandoPulso = false;
+partidaReflejos = false;
+boton.classList.remove("listo");
 boton.textContent = "Empezar";
-texto.textContent = `¡Tu tiempo: ${tiempo} ms!`;
+texto.textContent = `Tu tiempo: ${tiempo} ms.`;
 return;
 }
  
-if (boton.dataset.listo === "si") {
-clearTimeout(temporizador);
-boton.dataset.listo = "no";
-boton.style.background = "#7658f2";
-texto.textContent = "¡Te has adelantado! Prueba otra vez.";
+if (partidaReflejos) {
+clearTimeout(temporizadorReflejos);
+partidaReflejos = false;
 boton.textContent = "Empezar";
+boton.classList.remove("listo");
+texto.textContent = "¡Te has adelantado! Prueba de nuevo.";
 return;
 }
  
-texto.textContent = "Espera a que se ponga verde...";
+partidaReflejos = true;
 boton.textContent = "Espera...";
-boton.dataset.listo = "si";
+texto.textContent = "No pulses todavía.";
  
-temporizador = setTimeou
+temporizadorReflejos = setTimeou
 𝑡
 (
 (
@@ -269,27 +564,30 @@ temporizador = setTimeou
 =
 >
 t(()=> {
-boton.dataset.listo = "no";
-boton.style.background = "#20b879";
-boton.textContent = "¡Pulsa!";
+boton.textContent = "¡PULSA!";
+boton.classList.add("listo");
+texto.textContent = "¡Ahora!";
 inicioVerde = Date.now();
-esperando = true;
-}, 1200 + Math.random() * 2500);
+esperandoPulso = true;
+}, numeroAleatorio(1200, 3500));
 }
  
+// Caza el punto
 let puntos = 0;
-let tiempoRestante = 15;
-let reloj = null;
+let segundos = 15;
+let relojCaza = null;
+let cazaActiva = false;
  
 function empezarCaza() {
+clearInterval(relojCaza);
 puntos = 0;
-tiempoRestante = 15;
-document.getElementById("marcador").textContent = " Puntos: 0";
-document.getElementById("resultadoCaza").textContent = "¡Vamos!";
-ponerPunto();
-clearInterval(reloj);
+segundos = 15;
+cazaActiva = true;
+document.getElementById("resultadoCaza").textContent = "¡A por ellos!";
+actualizarMarcador();
+moverPunto();
  
-reloj = setInterva
+relojCaza = setInterva
 𝑙
 (
 (
@@ -297,9 +595,12 @@ reloj = setInterva
 =
 >
 l(()=> {
-tiempoRestante--;
-if (tiempoRestante <= 0) {
-clearInterval(reloj);
+segundos--;
+actualizarMarcador();
+ 
+if (segundos <= 0) {
+clearInterval(relojCaza);
+cazaActiva = false;
 document.getElementById("punto").style.display = "none";
 document.getElementById("resultadoCaza").textContent =
 `Tiempo terminado. Has conseguido ${puntos} puntos.`;
@@ -307,23 +608,111 @@ document.getElementById("resultadoCaza").textContent =
 }, 1000);
 }
  
-function ponerPunto() {
-const zona = document.getElementById("objetivo");
-const punto = document.getElementById("punto");
-const maxX = zona.clientWidth - 38;
-const maxY = zona.clientHeight - 38;
+function actualizarMarcador() {
+document.getElementById("marcador").textContent =
+`Puntos: 
+𝑝
+𝑢
+𝑛
+𝑡
+𝑜
+𝑠
+⋅
+puntos⋅{segundos} s`;
+}
  
-punto.style.left = Math.random() * maxX + "px";
-punto.style.top = Math.random() * maxY + "px";
+function moverPunto() {
+const zona = document.getElementById("zonaCaza");
+const punto = document.getElementById("punto");
+const maxX = Math.max(0, zona.clientWidth - 34);
+const maxY = Math.max(0, zona.clientHeight - 34);
+ 
+punto.style.left = numeroAleatorio(0, maxX) + "px";
+punto.style.top = numeroAleatorio(0, maxY) + "px";
 punto.style.display = "block";
 }
  
 function tocarPunto() {
-if (tiempoRestante <= 0) return;
+if (!cazaActiva) return;
 puntos++;
-document.getElementById("marcador").textContent = ` Puntos: ${puntos}`;
-ponerPunto();
+actualizarMarcador();
+moverPunto();
+}
+ 
+// Desafío matemático
+let respuestaCorrecta = 0;
+ 
+function nuevaOperacion() {
+const a = numeroAleatorio(2, 12);
+const b = numeroAleatorio(2, 12);
+const operadores = ["+", "−", "×"];
+const op = operadores[numeroAleatorio(0, 2)];
+ 
+if (op === "+") respuestaCorrecta = a + b;
+if (op === "−") respuestaCorrecta = a - b;
+if (op === "×") respuestaCorrecta = a * b;
+ 
+document.getElementById("operacion").textContent = `
+𝑎
+a{op} ${b} =`;
+}
+ 
+function comprobarMate() {
+const valor = Number(document.getElementById("respuestaMate").value);
+const texto = document.getElementById("resultadoMate");
+ 
+if (valor === respuestaCorrecta) {
+texto.textContent = "¡Correcto! Aquí va otra.";
+nuevaOperacion();
+} else {
+texto.textContent = "No es esa. Inténtalo otra vez.";
+}
+ 
+document.getElementById("respuestaMate").value = "";
+}
+ 
+nuevaOperacion();
+ 
+// Memoria de colores
+const colores = ["rojo", "azul", "verde", "amarillo"];
+let secuencia = [];
+let turno = 0;
+let memoriaActiva = false;
+ 
+function empezarMemoria() {
+secuencia.push(colores[numeroAleatorio(0, colores.length - 1)]);
+turno = 0;
+memoriaActiva = true;
+ 
+document.getElementById("resultadoMemoria").textContent =
+`Memoriza: ${secuencia.join(" → ")}`;
+}
+ 
+function elegirColor(color) {
+const texto = document.getElementById("resultadoMemoria");
+ 
+if (!memoriaActiva) {
+texto.textContent = "Pulsa Empezar para crear una secuencia.";
+return;
+}
+ 
+if (secuencia[turno] !== color) {
+secuencia = [];
+memoriaActiva = false;
+texto.textContent = "Secuencia incorrecta. Pulsa Empezar para probar otra vez.";
+return;
+}
+ 
+turno++;
+ 
+if (turno === secuencia.length) {
+memoriaActiva = false;
+texto.textContent = `¡Bien! Nivel ${secuencia.length}. Pulsa Empezar para seguir.`;
+} else {
+texto.textContent = `Correcto, quedan ${secuencia.length - turno}.`;
+}
 }
 </script>
 </body>
 </html>
+ 
