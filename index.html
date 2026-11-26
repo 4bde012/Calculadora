@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 360px;
+      margin: 40px auto;
+      padding: 16px;
+      text-align: center;
+      background: #f2f4f8;
+    }
+
+    .panel {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px #0002;
+    }
+
+    input, button {
+      font-size: 18px;
+      padding: 12px;
+      margin: 5px;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+    }
+
+    input { width: 85%; }
+    button { cursor: pointer; }
+    #resultado, #mensaje { min-height: 24px; }
+    #juego { display: none; }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <h1>Calculadora</h1>
+
+    <input id="pantalla" type="text" placeholder="Ej.: 12 * 4" autocomplete="off">
+    <br>
+    <button onclick="calcular()">Calcular</button>
+    <p id="resultado"></p>
+
+    <hr>
+
+    <input id="codigo" type="password" placeholder="Código del modo juego">
+    <br>
+    <button onclick="comprobarCodigo()">Entrar</button>
+    <p id="mensaje"></p>
+
+    <section id="juego">
+      <h2>Adivina el número</h2>
+      <p>Estoy pensando en un número del 1 al 10.</p>
+      <input id="intento" type="number" min="1" max="10" placeholder="Tu número">
+      <br>
+      <button onclick="probarNumero()">Probar</button>
+      <p id="pista"></p>
+      <button onclick="nuevoNumero()">Nuevo número</button>
+    </section>
+  </main>
+
+  <script>
+    function calcular() {
+      const texto = document.getElementById("pantalla").value.trim();
+      const resultado = document.getElementById("resultado");
+
+      // Acepta números y las operaciones +, -, * y /.
+      const valido = /^[0-9+\-*/().\s]+$/.test(texto);
+      if (!valido || texto === "") {
+        resultado.textContent = "Escribe una operación válida.";
+        return;
+      }
+
+      try {
+        const valor = Function('"use strict"; return (' + texto + ')')();
+        resultado.textContent =
+          Number.isFinite(valor) ? "Resultado: " + valor : "No se puede dividir entre cero.";
+      } catch {
+        resultado.textContent = "No he podido interpretar la operación.";
+      }
+    }
+
+    function comprobarCodigo() {
+      const codigo = document.getElementById("codigo").value;
+      const mensaje = document.getElementById("mensaje");
+
+      if (codigo === "JUEGO123") {
+        document.getElementById("juego").style.display = "block";
+        mensaje.textContent = "Modo juego abierto.";
+      } else {
+        mensaje.textContent = "Ese código no es correcto.";
+      }
+    }
+
+    let numeroSecreto = Math.floor(Math.random() * 10) + 1;
+
+    function probarNumero() {
+      const intento = Number(document.getElementById("intento").value);
+      const pista = document.getElementById("pista");
+
+      if (intento === numeroSecreto) {
+        pista.textContent = "¡Lo has acertado!";
+      } else if (intento < numeroSecreto) {
+        pista.textContent = "Prueba con un número más alto.";
+      } else {
+        pista.textContent = "Prueba con un número más bajo.";
+      }
+    }
+
+    function nuevoNumero() {
+      numeroSecreto = Math.floor(Math.random() * 10) + 1;
+      document.getElementById("pista").textContent = "Nuevo número. ¡Prueba otra vez!";
+      document.getElementById("intento").value = "";
+    }
+  </script>
+</body>
+</html>
